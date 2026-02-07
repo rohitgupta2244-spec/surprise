@@ -3,167 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Valentine Gift ❤️</title>
+<title>Make it Special 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd1dc, #ff9eb5);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
-/* Name Screen */
-#loginBox {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
+/* Floating Hearts */
+.heart {
+    position: absolute;
+    color: #ff4d6d;
+    font-size: 22px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.5); }
+    100% { transform: translateY(-10vh) scale(1.4); }
+}
+
+/* Card */
+.card {
+    background: #fff;
+    width: 360px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
 }
 
-input {
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    width: 80%;
+h1 {
+    color: #ff4d6d;
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #444;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    font-size: 14px;
+    background: #fafafa;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
 }
 
 button {
-    margin-top: 15px;
-    padding: 10px 20px;
+    margin-top: 20px;
+    width: 100%;
+    padding: 14px;
     border: none;
-    border-radius: 8px;
-    background: #ff4d6d;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ff4d6d, #ff758c);
     color: white;
     font-size: 16px;
     cursor: pointer;
+    box-shadow: 0 8px 15px rgba(255,77,109,0.3);
 }
 
 button:hover {
-    background: #e63956;
+    transform: scale(1.05);
 }
 
-/* Love Book */
-#book {
+/* Link Box */
+#resultBox {
     display: none;
-    width: 330px;
-    height: 430px;
+    margin-top: 20px;
     background: #fff0f6;
+    padding: 15px;
     border-radius: 12px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    padding: 25px;
-    text-align: center;
-    position: relative;
-    animation: openBook 1s ease forwards;
-}
-
-@keyframes openBook {
-    from { transform: scale(0.5) rotateY(90deg); opacity: 0; }
-    to { transform: scale(1) rotateY(0); opacity: 1; }
-}
-
-.dayTitle {
-    font-size: 22px;
-    color: #c9184a;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.pageText {
-    font-size: 17px;
-    color: #d6336c;
-    margin-top: 60px;
-    min-height: 120px;
-}
-
-.pageNumber {
-    position: absolute;
-    bottom: 15px;
-    right: 20px;
-    font-size: 14px;
-    color: #888;
-}
-
-.coverName {
-    font-size: 18px;
-    color: #444;
-    margin-top: 5px;
+    font-size: 13px;
+    word-wrap: break-word;
 }
 </style>
 </head>
 
 <body>
 
-<div id="loginBox">
-    <h2>Enter Your Beautiful Name 💖</h2>
-    <input type="text" id="nameInput" placeholder="Type your name here">
-    <br>
-    <button onclick="openBook()">Open My Valentine Gift 🎁</button>
-    <p id="error" style="color:red;"></p>
-</div>
+<!-- Floating Hearts -->
+<script>
+for (let i = 0; i < 20; i++) {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    heart.style.fontSize = (18 + Math.random() * 15) + "px";
+    document.body.appendChild(heart);
+}
+</script>
 
-<div id="book">
-    <div class="dayTitle" id="dayTitle"></div>
-    <div class="coverName" id="coverName"></div>
-    <div class="pageText" id="pageText"></div>
-    <div class="pageNumber" id="pageNumber"></div>
-    <button onclick="nextPage()">Next Page ➡️</button>
+<div class="card">
+    <h1>Make it Special 💖</h1>
+
+    <label>Who is this for?</label>
+    <input type="text" id="name" placeholder="e.g. My Crush, Anjali">
+
+    <label>Custom Message (Optional)</label>
+    <textarea id="message">Will you be my Valentine? 💘</textarea>
+
+    <button onclick="generateLink()">Generate Link 💌</button>
+
+    <div id="resultBox"></div>
 </div>
 
 <script>
-const pages = [
-    {day:"🌹 Rose Day", text:"A rose for you, because your smile makes my world bloom."},
-    {day:"💍 Propose Day", text:"If loving you is a dream, I never want to wake up."},
-    {day:"🍫 Chocolate Day", text:"Life with you is sweeter than any chocolate in the world."},
-    {day:"🧸 Teddy Day", text:"I wish I could hug you right now like a soft teddy bear."},
-    {day:"🤝 Promise Day", text:"I promise to stand by you, today, tomorrow, forever."},
-    {day:"🤗 Hug Day", text:"One hug from you can fix my worst days."},
-    {day:"💋 Kiss Day", text:"A kiss from you is my favorite kind of magic."},
-    {day:"❤️ Valentine’s Day", text:"You are my today, my tomorrow, and my forever love."}
-];
+function generateLink() {
+    const name = document.getElementById("name").value.trim();
+    const msg = encodeURIComponent(document.getElementById("message").value.trim());
 
-let currentPage = 0;
-let userName = "";
-
-function openBook() {
-    const input = document.getElementById("nameInput").value.trim();
-
-    if (input === "") {
-        document.getElementById("error").innerText = "Please enter your name 💖";
+    if (name === "") {
+        alert("Enter a name first 💖");
         return;
     }
 
-    userName = input;
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("book").style.display = "block";
-    showPage();
-}
+    const link = `https://yourlink.com/valentine.html?to=${encodeURIComponent(name)}&msg=${msg}`;
 
-function showPage() {
-    document.getElementById("dayTitle").innerText = pages[currentPage].day;
-    document.getElementById("coverName").innerText = "For " + userName + " 💘";
-    document.getElementById("pageText").innerText = pages[currentPage].text;
-    document.getElementById("pageNumber").innerText =
-        "Page " + (currentPage + 1) + " / " + pages.length;
-}
-
-function nextPage() {
-    if (currentPage < pages.length - 1) {
-        currentPage++;
-        showPage();
-    } else {
-        document.getElementById("dayTitle").innerText = "💖 The End";
-        document.getElementById("coverName").innerText = "Forever Yours, " + userName + " ❤️";
-        document.getElementById("pageText").innerText =
-            "Valentine Week ends… but my love for you never will 💞";
-        document.getElementById("pageNumber").innerText = "";
-    }
+    document.getElementById("resultBox").style.display = "block";
+    document.getElementById("resultBox").innerHTML = 
+        "Here is your magical link ✨<br><br>" + link;
 }
 </script>
 
