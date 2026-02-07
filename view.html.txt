@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin:0;
+    font-family:sans-serif;
+    background:linear-gradient(135deg,#ff758c,#ff7eb3);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+    color:white;
+    text-align:center;
+}
+
+.card {
+    background: rgba(255,255,255,0.15);
+    padding: 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    width: 320px;
+}
+
+h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 36px;
+}
+
+img {
+    width: 150px;
+    height:150px;
+    border-radius:50%;
+    margin:15px 0;
+    filter: contrast(120%) saturate(120%) brightness(105%) blur(0.3px);
+    box-shadow:0 0 15px rgba(255,255,255,0.6);
+}
+
+.heart {
+    position:absolute;
+    font-size:22px;
+    animation:floatUp 8s linear infinite;
+    opacity:0.7;
+}
+@keyframes floatUp {
+    0%{transform:translateY(100vh);}
+    100%{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<script>
+for(let i=0;i<25;i++){
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="💖";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(5+Math.random()*5)+"s";
+ document.body.appendChild(h);
+}
+</script>
+
+<div class="card">
+    <h1 id="title"></h1>
+    <img id="photo" style="display:none;">
+    <p id="msg"></p>
+    <p id="dobText"></p>
+</div>
+
+<script>
+const url = new URLSearchParams(window.location.search);
+const name = url.get("to");
+const msg = url.get("msg");
+const dob = url.get("dob");
+const img = url.get("img");
+
+document.getElementById("title").innerText = "For " + name + " 💖";
+document.getElementById("msg").innerText = decodeURIComponent(msg);
+
+if(dob){
+    document.getElementById("dobText").innerText = "Born on: " + dob;
+}
+
+if(img){
+    const photo = document.getElementById("photo");
+    photo.src = decodeURIComponent(img);
+    photo.style.display = "block";
+}
+</script>
+
+</body>
+</html>
